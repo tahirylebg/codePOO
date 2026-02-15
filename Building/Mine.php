@@ -1,10 +1,10 @@
 <?php
 
 class Mine extends Building{
-    private int $level;
-    private array $monsters;
-    private MonsterFactory $factory;
-    private DifficultyStrategy $difficultyStrategy;
+    private int $level; //Niveau de la mine
+    private array $monsters; // Liste des monstres dans la mine 
+    private MonsterFactory $factory; // Usine pour faire des monstres 
+    private DifficultyStrategy $difficultyStrategy; // Stratégie pour déterminer la difficulté de la mine (nombre de monstres)
 
     public function __construct(int $level, DifficultyStrategy $difficultyStrategy)
     {
@@ -34,6 +34,17 @@ class Mine extends Building{
     //Comme indique le sujet , le nombre de monstres dans la mine doit suivre la suite de Fibonacci en fonction du niveau de la mine.
     echo "Génération de monstres pour la mine de niveau {$this->level}...\n";
 
+    $this->generateMonster();
 
+    $combat = new CombatSystem();
+
+    // Le héros entre dans la mine et affronte les monstres générés
+    $win = $combat->startCombat($hero, $this->monsters);
+    if ($win) {
+        echo "Félicitations ! Vous avez vaincu tous les monstres de la mine de niveau {$this->level}.\n";
+        $this->level++; // Augmente le niveau de la mine pour la prochaine entrée
+    } else {
+        echo "Vous avez été vaincu par les monstres de la mine de niveau {$this->level}. Essayez à nouveau !\n";
+    }
     }
 }
