@@ -15,10 +15,25 @@ class Mine extends Building{
         $this->monsters = [];
     }
 
-    public function enter(IHero $hero): void {
 
+    // Permet au héros d'entrer dans la mine et de combattre les monstres générés
+    public function enter(IHero $hero): void {
+        // Génère des monstres basés sur la difficulté actuelle de la mine
+        $monsterCount = $this->difficultyStrategy->getMonsterCount($this->level);
+
+        $this ->monsters = []; // Réinitialise la liste des monstres à chaque entrée dans la mine
+
+        for ($i = 0; $i < $monsterCount; $i++) {
+            $this->monsters[] = $this->factory->createMonster($this->level);
+        }
     }
 
+    // Génère des monstres basés sur la difficulté actuelle de la mine
     public function generateMonster(): void {
+
+    //Comme indique le sujet , le nombre de monstres dans la mine doit suivre la suite de Fibonacci en fonction du niveau de la mine.
+    echo "Génération de monstres pour la mine de niveau {$this->level}...\n";
+
+
     }
 }
