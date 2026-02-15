@@ -3,16 +3,30 @@
 class CombatSystem{
 
     //Le combat se déroule en tours, où le héros attaque d'abord, suivi des attaques des monstres encore en vie.
-    public function startCombat(IHero $hero , array $monsters): bool {
-        while (!$hero -> isDead() !$this->allMonstersDead($monsters)){
+    public function startCombat(IHero $hero , array $monsters): bool{
+        echo " Début du combat !\n";
 
-            
+        while (!$hero->isDead() && !$this->allMonstersDead($monsters)) {
+
+            $this->heroTurn($hero, $monsters);
+
+            if ($this->allMonstersDead($monsters)) {
+                break;
+            }
+
+            $this->monstersTurn($hero, $monsters);
+
+            $this->displayCombatStatus($hero, $monsters);
         }
-    }
 
-    // Boucle de combat : le héros et les monstres s'affrontent jusqu'à ce que l'un d'eux soit vaincu
-    while (!$hero->isDead() && !$this->allMonstersDead($monsters)){
-        
+        // Récompense si victoire
+        if (!$hero->isDead()) {
+            foreach ($monsters as $monster) {
+                $hero->addGold($monster->getGoldReward());
+            }
+        }
+
+        return !$hero->isDead();
     }
 
     // Vérifie si tous les monstres sont morts
@@ -40,15 +54,27 @@ class CombatSystem{
 
     // Tour des monstres : chaque monstre vivant attaque le héros
     private function monstersTurn(IHero $hero, array $monsters): void{
-        // Chaque monstre vivant attaque le héros
         foreach ($monsters as $monster){
             if (!$monster->isDead()){
-                $monster->attack($hero);
+                $damage = $monster->attack($hero);
+                $hero->takeDamage($damage);
+            }
+        }
+    }
+
+    private function displayCombatStatus(IHero $hero, array $monsters): void{
+        // Affiche l'état actuel du héros (santé, or, etc.)
+        echo "----Etat du combat----\n";
+        echo "{$hero->getName()} est toujours en vie \n";
+        
+        foreach ($monsters as $monster){
+            if (!$monster->isDead()){
+                echo "Monstre: " . $monster->getName() . " - Santé: " . $monster->getHealth() . "\n";
             }
         }
 
+        echo "----------------------\n";
     }
 
-    
-
 }
+
