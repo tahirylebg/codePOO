@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../Building/IDifficultyStrategy.php";
+require_once __DIR__ . "/../Building/IDifficultStrategy.php";
 require_once __DIR__ . "/../Building/FibonacciSequence.php";
 require_once __DIR__ . "/../Building/FibonacciDifficulty.php";
 
