@@ -8,7 +8,7 @@
  * En utilisant la séquence de Fibonacci, le nombre de monstres augmente de manière exponentielle, ce qui rend les niveaux plus difficiles à mesure que le héros progresse dans le jeu.
  */
 
-class FibonacciDifficulty implements DifficultyStrategy
+class FibonacciDifficulty implements IDifficultyStrategy
 {
     // La classe FibonacciDifficulty utilise une séquence de Fibonacci pour déterminer le nombre de monstres à générer en fonction du niveau du héros.
     private FibonacciSequence $sequence;

@@ -20,7 +20,7 @@ class Mine extends Building
     private MonsterFactory $factory;
 
     // Stratégie utilisée pour déterminer le nombre de monstres
-    private DifficultyStrategy $difficultyStrategy;
+    private IDifficultyStrategy $difficultyStrategy;
 
     /**
      * Constructeur de la mine

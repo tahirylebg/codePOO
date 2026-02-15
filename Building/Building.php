@@ -27,3 +27,4 @@ abstract class Building implements IBuilding
     // Action lorsqu’un héros entre dans le bâtiment
     abstract public function enter(IHero $hero): void;
 }
+ 
