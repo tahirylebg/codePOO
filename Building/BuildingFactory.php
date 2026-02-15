@@ -16,7 +16,7 @@ class BuildingFactory
     /**
      * Crée un bâtiment selon le type demandé.
      *
-     * @param string $type               L
+     * @param string $type               
      * @param array  $options
      *
      * @return IBuilding

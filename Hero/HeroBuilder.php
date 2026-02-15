@@ -61,38 +61,44 @@ class HeroBuilder
 
     // Méthode pour construire le héros avec les configurations spécifiées
 
-    public function build(): Hero{
-        // Vérification que les propriétés essentielles sont définies avant de construire le héros
-        if ($this->strategy === null) {
-            throw new Exception("Strategy must be defined.");
+    public function build(string $heroClass): IHero
+    {
+        // Vérifie que la classe de héros existe et est valide
+        if (!class_exists($heroClass)) {
+        throw new Exception("Classe de héros invalide.");
         }
 
-        // Ici on peut instancier un Hero concret
-        // On suppose qu'on reçoit une classe concrète plus tard
-        $hero = new class(
-            $this->name,
-            $this->health,
-            $this->maxHealth,
-            $this->baseDamage
-        ) extends Hero {};
+        // Crée une instance du héros en utilisant la classe spécifiée
+        $hero = new $heroClass($this->name);
 
-        // Transférer les propriétés supplémentaires au héros construit
+        // Configure les propriétés du héros avec les valeurs spécifiées dans le builder
         $hero->addGold($this->gold);
 
-        // Équiper le héros avec l'arme, le bouclier et la stratégie spécifiés dans le builder
+        // Configure la santé du héros, en s'assurant qu'elle ne dépasse pas la santé maximale
+        $hero->setHealth(min($this->health, $this->maxHealth));
+
+        // Configure la santé maximale du héros
+        $hero->setMaxHealth($this->maxHealth);
+
+        // Configure les dégâts de base du héros
+        $hero->setBaseDamage($this->baseDamage);
+
+        // Configure l'arme du héros si spécifiée
         if ($this->weapon !== null) {
             $hero->equipWeapon($this->weapon);
         }
 
-        // Équiper le héros avec le bouclier s'il est défini, ce qui peut réduire les dégâts subis lors des attaques ennemies
+        // Configure le bouclier du héros si spécifié
         if ($this->shield !== null) {
-            $hero->equipShield($this->shield);
+        $hero->equipShield($this->shield);
         }
 
-        $hero->setStrategy($this->strategy);
+        // Configure la stratégie de combat du héros si spécifiée
+        if ($this->strategy !== null) {
+            $hero->setStrategy($this->strategy);
+        }
 
         return $hero;
     }
-
 
 }
