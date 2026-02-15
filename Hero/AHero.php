@@ -48,17 +48,15 @@ abstract class AHero implements IHero
      */
     public function attack(IMonster $monster): void
     {
-        // Calcul des dégâts de base, en tenant compte de l'arme équipée
-        $damage = $this->baseDamage;
-        // Si une arme est équipée, ajouter ses dégâts au total
-        if ($this->weapon) {
-            $damage += $this->weapon->getDamage();
+        if (!$this->strategy) {
+            return;
         }
-        // Appliquer la stratégie de combat pour calculer les dégâts finaux
-        if ($this->strategy) {
-            $damage = $this->strategy->calculateDamage($damage);
-        }
-        // Infliger les dégâts au monstre
+
+        $damage = $this->strategy->calculateDamage(
+            $this->baseDamage,
+            $this->weapon
+        );
+
         $monster->takeDamage($damage);
     }
 
