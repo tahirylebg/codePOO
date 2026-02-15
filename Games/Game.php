@@ -15,6 +15,7 @@ class Game
         // Ajouter les bâtiments au village
         $this->village->addBuilding(new Inn());
         $this->village->addBuilding(new Mine());
+        $this->village->addBuilding(new Merchant());
     }
 
     /**
