@@ -1,7 +1,13 @@
 <?php
 
 class CombatSystem{
-    public function startCombat(IHero $hero, IMonster $monsters){
+
+    //Le combat se déroule en tours, où le héros attaque d'abord, suivi des attaques des monstres encore en vie.
+    public function startCombat(IHero $hero , array $monsters): bool {
+        while (!$hero -> isDead() !$this->allMonstersDead($monsters)){
+
+            
+        }
     }
 
     // Boucle de combat : le héros et les monstres s'affrontent jusqu'à ce que l'un d'eux soit vaincu
@@ -20,16 +26,8 @@ class CombatSystem{
         return true;
     }
 
-    //Le combat se déroule en tours, où le héros attaque d'abord, suivi des attaques des monstres encore en vie.
-    public function startCombat(IHero $hero , array $monsters): bool {
-        while (!$hero -> isDead() !$this->allMonstersDead($monsters)){
 
-            
-        }
-    }
-
-
-    // Tour du héros : le héros attaque le premier monstre vivant dans la liste
+  // Tour du héros : le héros attaque le premier monstre vivant dans la liste
     private function heroTurn(IHero $hero, array $monsters): void{
         // Le héros attaque le premier monstre vivant dans la liste
         foreach ($monsters as $monster){
@@ -40,5 +38,17 @@ class CombatSystem{
         }
     }
 
+    // Tour des monstres : chaque monstre vivant attaque le héros
+    private function monstersTurn(IHero $hero, array $monsters): void{
+        // Chaque monstre vivant attaque le héros
+        foreach ($monsters as $monster){
+            if (!$monster->isDead()){
+                $monster->attack($hero);
+            }
+        }
+
+    }
+
+    
 
 }
