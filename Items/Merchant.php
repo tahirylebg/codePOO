@@ -12,9 +12,14 @@ class Merchant extends Building
         parent::__construct(
             "Merchant",
             "Un marchand proposant divers objets à la vente."
+            
         );
 
-        $this->stock = [];
+        $this->stock = [
+            new Sword("Épée en fer", 15, 50),
+            new Shield("Bouclier en bois", 10, 40),
+            new HealingPotion("Potion mineure", 30, 20)
+        ];
     }
 
     public function addItem(Item $item): void

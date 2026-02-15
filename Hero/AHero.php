@@ -36,6 +36,7 @@ abstract class AHero implements IHero
         $this->inventory = new Inventory();
         $this->weapon = null;
         $this->shield = null;
+        $this->strategy = null;
     }
 
     public function getName(): string

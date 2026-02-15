@@ -1,18 +1,17 @@
 <?php
 
 spl_autoload_register(function ($class) {
-
-    $paths = [
-        __DIR__ . "/Building/",
-        __DIR__ . "/Monster/",
-        __DIR__ . "/Hero/",
-        __DIR__ . "/Items/",
-        __DIR__ . "/Combat/",
-        __DIR__ . "/Games/"
+    $directories = [
+        'Hero',
+        'Monster',
+        'Building',
+        'Items',
+        'Combat',
+        'Games',
     ];
 
-    foreach ($paths as $path) {
-        $file = $path . $class . ".php";
+    foreach ($directories as $dir) {
+        $file = __DIR__ . '/' . $dir . '/' . $class . '.php';
         if (file_exists($file)) {
             require_once $file;
             return;

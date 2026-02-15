@@ -15,6 +15,8 @@ class Warrior extends AHero {
     public function __construct(string $name)
         {
             parent::__construct($name, 120 , 120 , 20);
+
+            $this->setStrategy(new WarriorCombatStrategy());
         }
 
     public function attack(IMonster $monster): void

@@ -14,6 +14,8 @@ class Mage extends AHero{
 
     public function __construct(string $name){
         parent::__construct($name, 80, 80, 25); // Les mages ont une santé de base de 80 et une santé maximale de 100
+
+        $this->setStrategy(new MageCombatStrategy()); // Le mage utilise une stratégie de combat spécifique pour les attaques magiques
     }
 
     public function takeDamage(int $damage): void {

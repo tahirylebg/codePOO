@@ -56,8 +56,7 @@ class CombatSystem{
     private function monstersTurn(IHero $hero, array $monsters): void{
         foreach ($monsters as $monster){
             if (!$monster->isDead()){
-                $damage = $monster->attack($hero);
-                $hero->takeDamage($damage);
+                $monster->attack($hero);
             }
         }
     }
