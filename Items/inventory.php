@@ -8,10 +8,10 @@ class Inventory
     private array $potions;
 
     private int $maxPotion;
-    public function __construct(int $maxPotion)
+    public function __construct()
     {
-        $this->maxPotion = $maxPotion;
         $this->potions = [];
+        $this->maxPotion = 10; // Limite le nombre de potions que le héros peut porter   
     }
 
     // Permet d'ajouter une potion de soin à l'inventaire

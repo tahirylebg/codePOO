@@ -8,7 +8,7 @@
  * Les personnages peuvent utiliser des boucliers pour réduire les dégâts subis lors des combats.
  */
 
-class Shield implements IItem
+class Shield implements Item
 {
     // Propriétés du bouclier
     private string $name;

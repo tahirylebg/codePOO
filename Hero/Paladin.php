@@ -26,11 +26,4 @@ class Paladin extends AHero
         return true;
     }
 
-    public function equipWeapon(Sword $param): void
-    {
-    }
-
-    public function equipShield(Shield $param): void
-    {
-    }
 }

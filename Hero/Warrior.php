@@ -20,7 +20,7 @@ class Warrior extends AHero {
     public function attack(IMonster $monster): void
     {
         // Calcul des dégâts en fonction de l'arme équipée et de la stratégie de combat
-        $damage = (int)($this->baseDamage)
+        $damage = (int)($this->baseDamage);
 
         // Si une arme est équipée, ajouter ses dégâts au total
         if ($this->weapon) {

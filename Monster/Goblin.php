@@ -1,6 +1,6 @@
 <?php
 
-class Goblin extends Monster
+class Goblin extends AMonster
 {
     public function __construct(int $level)
     {

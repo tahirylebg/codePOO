@@ -20,7 +20,7 @@ class Inn extends Building
     // Permet au héros d'entrer dans l'auberge et de se soigner en échange d'or
     public function enter(IHero $hero): void
     {
-        echo "🏨 {$hero->getName()} entre dans l'auberge.\n";
+        echo " {$hero->getName()} entre dans l'auberge.\n";
 
         // Vérifie si le héros a assez d'or
         if (!$hero->spendGold($this->healingCost)) {

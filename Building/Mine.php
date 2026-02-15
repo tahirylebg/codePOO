@@ -1,50 +1,85 @@
 <?php
 
-class Mine extends Building{
-    private int $level; //Niveau de la mine
-    private array $monsters; // Liste des monstres dans la mine 
-    private MonsterFactory $factory; // Usine pour faire des monstres 
-    private DifficultyStrategy $difficultyStrategy; // Stratégie pour déterminer la difficulté de la mine (nombre de monstres)
+/**
+ * Classe Mine
+ *
+ * Représente une mine dans le jeu.
+ * La mine génère des monstres en fonction de son niveau et de la stratégie
+ * de difficulté utilisée (ex : Fibonacci).
+ * Le héros peut entrer dans la mine et affronter les monstres générés.
+ */
+class Mine extends Building
+{
+    // Niveau actuel de la mine (augmente après chaque victoire)
+    private int $level;
 
-    public function __construct(int $level, DifficultyStrategy $difficultyStrategy)
+    // Liste des monstres générés pour le combat
+    private array $monsters;
+
+    // Factory utilisée pour créer les monstres
+    private MonsterFactory $factory;
+
+    // Stratégie utilisée pour déterminer le nombre de monstres
+    private DifficultyStrategy $difficultyStrategy;
+
+    /**
+     * Constructeur de la mine
+     * Initialise le niveau à 1, crée une instance de la factory de monstres,
+     * et définit la stratégie de difficulté (ex : Fibonacci). 
+     */
+    public function __construct()
     {
-        parent::__construct("Mine","Une mine avec des monstres a combattre");
-        $this->level = 1;// La mine commence au niveau 1
-        $this->difficultyStrategy = new FibonnaciDifficultyStrategy();
-        $this->factory = new MonsterFactory();
-        $this->monsters = [];
+    parent::__construct("Mine", "Une mine remplie de monstres dangereux.");
+
+    $this->level = 1;
+    $this->difficultyStrategy = new FibonacciDifficulty();
+    $this->factory = new MonsterFactory();
+    $this->monsters = [];
     }
 
 
-    // Permet au héros d'entrer dans la mine et de combattre les monstres générés
-    public function enter(IHero $hero): void {
-        // Génère des monstres basés sur la difficulté actuelle de la mine
-        $monsterCount = $this->difficultyStrategy->getMonsterCount($this->level);
+    /**
+     * Permet au héros d'entrer dans la mine.
+     * Génère les monstres puis lance le combat.
+     */
+    public function enter(IHero $hero): void
+    {
+        // Génération des monstres selon le niveau actuel
+        $this->generateMonster();
 
-        $this ->monsters = []; // Réinitialise la liste des monstres à chaque entrée dans la mine
+        // Création du système de combat
+        $combat = new CombatSystem();
 
-        for ($i = 0; $i < $monsterCount; $i++) {
-            $this->monsters[] = $this->factory->createMonster($this->level);
+        // Lancement du combat
+        $win = $combat->startCombat($hero, $this->monsters);
+
+        // Gestion du résultat du combat
+        if ($win) {
+            echo "Félicitations ! Vous avez vaincu la mine de niveau {$this->level}.\n";
+            $this->level++; // Augmente le niveau pour la prochaine entrée
+        } else {
+            echo "Vous avez été vaincu dans la mine de niveau {$this->level}.\n";
         }
     }
 
-    // Génère des monstres basés sur la difficulté actuelle de la mine
-    public function generateMonster(): void {
+    /**
+     * Génère les monstres en fonction du niveau actuel de la mine.
+     * Le nombre de monstres est déterminé par la stratégie de difficulté
+     * (ex : suite de Fibonacci).
+     */
+    public function generateMonster(): void
+    {
+        echo "Génération des monstres pour la mine de niveau {$this->level}...\n";
 
-    //Comme indique le sujet , le nombre de monstres dans la mine doit suivre la suite de Fibonacci en fonction du niveau de la mine.
-    echo "Génération de monstres pour la mine de niveau {$this->level}...\n";
+        // Détermine combien de monstres doivent être générés
+        $monsterCount = $this->difficultyStrategy->getMonsterCount($this->level);
 
-    $this->generateMonster();
+        // Réinitialise la liste des monstres
+        $this->monsters = [];
 
-    $combat = new CombatSystem();
-
-    // Le héros entre dans la mine et affronte les monstres générés
-    $win = $combat->startCombat($hero, $this->monsters);
-    if ($win) {
-        echo "Félicitations ! Vous avez vaincu tous les monstres de la mine de niveau {$this->level}.\n";
-        $this->level++; // Augmente le niveau de la mine pour la prochaine entrée
-    } else {
-        echo "Vous avez été vaincu par les monstres de la mine de niveau {$this->level}. Essayez à nouveau !\n";
-    }
+        // Génère les monstres via la factory
+        for ($i = 0; $i < $monsterCount; $i++) {
+            $this->monsters[] = $this->factory->createRandomMonster($this->level);
+        }
     }
 }

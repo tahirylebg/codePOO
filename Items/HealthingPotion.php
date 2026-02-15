@@ -4,7 +4,7 @@
  * Classe HealingPotion
  * Représente une potion de soin.
  */
-class HealingPotion implements IItem
+class HealingPotion implements Item
 {
     private string $name;
     private int $healingAmount;

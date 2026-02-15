@@ -7,7 +7,7 @@ class MonsterFactory
         * En fonction du type de monstre demandé, elle instancie et retourne un objet correspondant (Goblin, Orc ou Dragon).
         * Si le type de monstre n'est pas reconnu, elle lance une exception InvalidArgumentException.
         */
-    public static function createMonster(string $type, int $level): Monster
+    public static function createMonster(string $type, int $level): AMonster
        {
         // On a choisi d'utiliser un switch pour gérer la création des différents types de monstres, ce qui rend le code plus lisible et facile à maintenir.
         switch (strtolower($type)) {

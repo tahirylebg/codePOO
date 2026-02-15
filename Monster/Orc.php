@@ -1,6 +1,6 @@
 <?php
 
-class Orc extends Monster
+class Orc extends AMonster
 {
     public function __construct(int $level)
     {
