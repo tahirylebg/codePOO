@@ -7,7 +7,7 @@
  * Elle peut être utilisée par les personnages pour infliger des dégâts magiques aux ennemis.
  */
 
-class Staff extends AWeapon
+class Staff extends AWeapon implements \IWeapon
 {
     public function __construct()
     {

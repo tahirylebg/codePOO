@@ -30,7 +30,7 @@ class MonsterFactory
      /**
      * Crée un monstre aléatoire selon le niveau.
      */
-    public function createRandomMonster(int $level): Monster{
+    public function createRandomMonster(int $level): AMonster{
     // On utilise random pour générer un nombre aléatoire entre 1 et 3, qui correspondra à un type de monstre (1 pour Goblin, 2 pour Orc, 3 pour Dragon).
     $random = rand(1, 3);
 

@@ -8,7 +8,7 @@
  * Elle peut être utilisée par les personnages pour infliger des dégâts aux ennemis.
  */
 
-class Sword extends AWeapon
+class Sword extends AWeapon implements \IWeapon
 {
     public function __construct()
     {

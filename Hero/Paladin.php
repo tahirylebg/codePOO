@@ -8,7 +8,7 @@
  * Il a une santé élevée et des dégâts modérés, ce qui en fait un héros robuste pour les combats rapprochés.
  * Cette classe hérite de AHero et implémente les méthodes spécifiques pour déterminer les armes et boucliers que le Paladin peut équiper.
  */
-class Paladin extends Hero
+class Paladin extends AHero
 {
     public function __construct(string $name)
     {
@@ -24,5 +24,13 @@ class Paladin extends Hero
     // Les paladins peuvent équiper des boucliers, donc cette méthode retourne true
     public function canEquipShield(): bool{
         return true;
+    }
+
+    public function equipWeapon(Sword $param): void
+    {
+    }
+
+    public function equipShield(Shield $param): void
+    {
     }
 }
