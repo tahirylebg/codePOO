@@ -1,46 +1,90 @@
 <?php
 class Inventory
 {
-    // Gere l'inventaire du héros, notamment les potions de soin
     /**
-     * @var HealingPotion[] Liste des potions de soin
+     * @var Item[] Liste des items dans l'inventaire
      */
-    private array $potions;
+    private array $items;
 
-    private int $maxPotion;
+    private int $maxItems;
+    
     public function __construct()
     {
-        $this->potions = [];
-        $this->maxPotion = 10; // Limite le nombre de potions que le héros peut porter   
+        $this->items = [];
+        $this->maxItems = 20; // Limite le nombre d'items que le héros peut porter   
     }
 
-    // Permet d'ajouter une potion de soin à l'inventaire
-    public function addPotion(HealingPotion $potion): bool
+    /**
+     * Ajoute un item à l'inventaire
+     */
+    public function addItem(Item $item): bool
     {
-        if (count($this->potions) >= $this->maxPotion) {
+        if (count($this->items) >= $this->maxItems) {
             return false;
         }
 
-        $this->potions[] = $potion;
+        $this->items[] = $item;
         return true;
     }
+
+    /**
+     * Utilise une potion de soin sur le héros
+     */
     public function usePotion(IHero $hero): bool
     {
-        // Permet d'utiliser une potion de soin sur le héros
-        if (empty($this->potions)) {
+        if (empty($this->items)) {
             return false;
         }
 
-        // Prend la première potion
-        $potion = array_shift($this->potions);
-        $potion->use($hero);
+        // Cherche la première potion
+        foreach ($this->items as $index => $item) {
+            if ($item instanceof HealingPotion) {
+                $item->use($hero);
+                unset($this->items[$index]);
+                $this->items = array_values($this->items); // Réindexe le tableau
+                return true;
+            }
+        }
 
-        return true;
+        return false;
     }
 
-        // Retourne le nombre de potions de soin dans l'inventaire
+    /**
+     * Retourne le nombre de potions dans l'inventaire
+     */
     public function getPotionCount(): int
     {
-        return count($this->potions);
+        $count = 0;
+        foreach ($this->items as $item) {
+            if ($item instanceof HealingPotion) {
+                $count++;
+            }
+        }
+        return $count;
+    }
+
+    /**
+     * Retourne tous les items
+     */
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    /**
+     * Supprime un item à un index donné
+     */
+    public function removeItem(int $index): void
+    {
+        unset($this->items[$index]);
+        $this->items = array_values($this->items); // Réindexe le tableau
+    }
+
+    /**
+     * Retourne le nombre total d'items
+     */
+    public function getItemCount(): int
+    {
+        return count($this->items);
     }
 }

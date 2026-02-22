@@ -13,8 +13,12 @@
 abstract class AHero implements IHero
 {
     protected string $name; //Héros ont un nom pour les identifier dans le jeu
+    protected int $level; // Niveau du héros, augmente avec l'expérience
+    protected int $xp; // Points d'expérience accumulés du héros
     protected int $health; // Points de vie actuels du héros
     protected int $maxHealth; // Points de vie maximum du héros, déterminant sa capacité à survivre aux combats
+    protected int $mana; // Points de mana actuels (pour les sorts)
+    protected int $maxMana; // Points de mana maximum du héros
     protected int $gold; // Quantité d'or que le héros possède, utilisée pour acheter des équipements et des potions dans le jeu
     protected int $baseDamage; // Dégâts de base du héros, qui peuvent être augmentés en équipant des armes ou en utilisant des stratégies de combat
 
@@ -26,10 +30,14 @@ abstract class AHero implements IHero
     /**
      * Constructeur conforme UML
      */
-    public function __construct(string $name,int $health,int $maxHealth,int $baseDamage) {
+    public function __construct(string $name, int $health, int $maxHealth, int $baseDamage, int $maxMana = 100) {
         $this->name = $name;
+        $this->level = 1;
+        $this->xp = 0;
         $this->health = $health;
         $this->maxHealth = $maxHealth;
+        $this->mana = $maxMana;
+        $this->maxMana = $maxMana;
         $this->baseDamage = $baseDamage;
         $this->gold = 0;
 
@@ -47,10 +55,10 @@ abstract class AHero implements IHero
     /**
      * Attaque un monstre en utilisant la stratégie
      */
-    public function attack(IMonster $monster): void
+    public function attack(IMonster $monster): int
     {
         if (!$this->strategy) {
-            return;
+            return 0;
         }
 
         $damage = $this->strategy->calculateDamage(
@@ -59,6 +67,7 @@ abstract class AHero implements IHero
         );
 
         $monster->takeDamage($damage);
+        return $damage;
     }
 
     /**
@@ -136,5 +145,121 @@ abstract class AHero implements IHero
     public function getInventory(): Inventory
     {
         return $this->inventory;
+    }
+
+    /**
+     * Gagne de l'expérience et vérifie si level up
+     */
+    public function gainXp(int $xp): void
+    {
+        $this->xp += $xp;
+        $xpNeededForLevelUp = $this->level * 100; // À chaque niveau, il faut level * 100 XP pour level up
+
+        while ($this->xp >= $xpNeededForLevelUp) {
+            $this->xp -= $xpNeededForLevelUp;
+            $this->levelUp();
+            $xpNeededForLevelUp = $this->level * 100;
+        }
+    }
+
+    /**
+     * Augmente le niveau du héros et ses stats
+     */
+    public function levelUp(): void
+    {
+        $this->level++;
+        $this->maxHealth += 10;
+        $this->health = $this->maxHealth;
+        $this->maxMana += 20;
+        $this->mana = $this->maxMana;
+        $this->baseDamage += 5;
+        
+        echo "{$this->name} a level up ! Nouveau niveau : {$this->level}\n";
+    }
+
+    /**
+     * Utilise une potion de soin depuis l'inventaire
+     */
+    public function usePotion(): void
+    {
+        // Cherche une potion de soin dans l'inventaire
+        $items = $this->inventory->getItems();
+        
+        foreach ($items as $index => $item) {
+            if ($item instanceof HealingPotion) {
+                $item->use($this);
+                $this->inventory->removeItem($index);
+                echo "{$this->name} a utilisé une potion de soin !\n";
+                return;
+            }
+        }
+        
+        echo "{$this->name} n'a pas de potion de soin disponible.\n";
+    }
+
+    /**
+     * Lance un sort (à implémenter par les sous-classes si nécessaire)
+     */
+    public function useSpell(): void
+    {
+        // Méthode par défaut - à surcharger dans les sous-classes comme Mage
+        echo "{$this->name} ne peut pas lancer de sort.\n";
+    }
+
+    public function getLevel(): int
+    {
+        return $this->level;
+    }
+
+    public function getXp(): int
+    {
+        return $this->xp;
+    }
+
+    public function getMana(): int
+    {
+        return $this->mana;
+    }
+
+    public function getMaxMana(): int
+    {
+        return $this->maxMana;
+    }
+
+    public function restoreMana(int $amount): void
+    {
+        $this->mana += $amount;
+        if ($this->mana > $this->maxMana) {
+            $this->mana = $this->maxMana;
+        }
+    }
+
+    public function consumeMana(int $amount): bool
+    {
+        if ($this->mana >= $amount) {
+            $this->mana -= $amount;
+            return true;
+        }
+        return false;
+    }
+
+    public function getHealth(): int
+    {
+        return $this->health;
+    }
+
+    public function getMaxHealth(): int
+    {
+        return $this->maxHealth;
+    }
+
+    public function getGold(): int
+    {
+        return $this->gold;
+    }
+
+    public function getBaseDamage(): int
+    {
+        return $this->baseDamage;
     }
 }

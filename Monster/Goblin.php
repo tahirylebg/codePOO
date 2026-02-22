@@ -1,4 +1,9 @@
 <?php
+/**
+ * Classe Goblin
+ * Monstre de mine niveau 1
+ * Faible santé et dégâts, mais facile à vaincre pour les débutants
+ */
 
 class Goblin extends AMonster
 {

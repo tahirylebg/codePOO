@@ -1,4 +1,12 @@
 <?php
+/**
+ * Classe Merchant
+ *
+ * Représente un marchand dans le jeu, qui vend des objets au héros.
+ * Le marchand a un stock d'objets disponibles à la vente, et le héros
+ * peut acheter ces objets s'il a assez d'or. Le marchand affiche également
+ * les objets disponibles lorsqu'un héros entre dans son magasin.
+ */
 
 class Merchant extends Building
 {
@@ -44,9 +52,7 @@ class Merchant extends Building
         }
 
         // Ajoute l'objet à l'inventaire du héros
-        if (method_exists($hero->getInventory(), 'addPotion') && $item instanceof HealingPotion) {
-            $hero->getInventory()->addPotion($item);
-        }
+        $hero->getInventory()->addItem($item);
 
         // Retire l'objet du stock
         unset($this->stock[$key]);

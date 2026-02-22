@@ -1,4 +1,11 @@
 <?php
+/*
+ * Classe HeroBuilder
+ *
+ * Permet de construire un héros avec des configurations personnalisées
+ * en utilisant le pattern Builder. Le builder offre une interface fluide
+ * pour définir les propriétés du héros avant de le construire.
+ */
 
 class HeroBuilder
 {

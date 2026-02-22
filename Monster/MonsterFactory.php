@@ -1,48 +1,46 @@
 <?php
 
+/**
+ * Classe MonsterFactory
+ *
+ * Cette classe est responsable de la création de monstres en fonction du niveau de la mine.
+ * Elle utilise des règles simples pour déterminer quel type de monstre créer :
+ * - niveau >= 20 → FinalBoss
+ * - niveau >= 10 → DeepTerror
+ * - niveau >= 5 → Zombie
+ * - sinon → Spider
+ *
+ * La méthode createRandomMonster() est une interface publique qui peut être utilisée pour obtenir un monstre aléatoire basé sur le niveau.
+ */
+
 class MonsterFactory
 {
-    /*
-        * La méthode createMonster est une méthode statique qui prend en paramètre le type de monstre à créer et le niveau du monstre.
-        * En fonction du type de monstre demandé, elle instancie et retourne un objet correspondant (Goblin, Orc ou Dragon).
-        * Si le type de monstre n'est pas reconnu, elle lance une exception InvalidArgumentException.
-        */
-    public static function createMonster(string $type, int $level): AMonster
-       {
-        // On a choisi d'utiliser un switch pour gérer la création des différents types de monstres, ce qui rend le code plus lisible et facile à maintenir.
-        switch (strtolower($type)) {
-
-            case 'goblin':
-                return new Goblin($level);
-
-            case 'orc':
-                return new Orc($level);
-
-            case 'dragon':
-                return new Dragon($level);
-
-            default:
-                throw new Exception("Type de monstre inconnu : " . $type);
+    /**
+     * Crée un monstre en fonction du niveau de la mine
+     * Règles :
+     * - niveau >= 20 → FinalBoss
+     * - niveau >= 10 → DeepTerror
+     * - niveau >= 5 → Zombie
+     * - sinon → Spider
+     */
+    public function createMonster(int $mineLevel): IMonster
+    {
+        if ($mineLevel >= 20) {
+            return new FinalBoss($mineLevel);
+        } elseif ($mineLevel >= 10) {
+            return new DeepTerror($mineLevel);
+        } elseif ($mineLevel >= 5) {
+            return new Zombie($mineLevel);
+        } else {
+            return new Spider($mineLevel);
         }
     }
 
-
-     /**
-     * Crée un monstre aléatoire selon le niveau.
+    /**
+     * Crée un monstre selon les règles de niveau (version fonctionnelle)
      */
-    public function createRandomMonster(int $level): AMonster{
-    // On utilise random pour générer un nombre aléatoire entre 1 et 3, qui correspondra à un type de monstre (1 pour Goblin, 2 pour Orc, 3 pour Dragon).
-    $random = rand(1, 3);
-
-    if ($random === 1) {
-        return new Goblin($level);
+    public function createRandomMonster(int $level): IMonster
+    {
+        return $this->createMonster($level);
     }
-    if ($random === 2) {
-        return new Orc($level);
-    }
-    else {
-        return new Dragon($level);
-    }
-    }
-
 }

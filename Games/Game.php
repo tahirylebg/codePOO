@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * Classe Game
+ *
+ * Gère le déroulement du jeu, y compris la création du héros, l'exploration du village,
+ * et la gestion des combats. C'est la classe centrale qui coordonne les différentes
+ * parties du jeu.
+ */
+
 class Game
 {
     private ?IHero $hero;     // Héros du joueur

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Classe AMonster
+ *
+ * Classe abstraite représentant un monstre dans le jeu.
+ * Les monstres ont des propriétés communes telles que la santé,
+ * les dégâts, et les récompenses en or. Les classes de monstres
+ * spécifiques hériteront de cette classe et pourront ajouter des
+ * comportements ou des propriétés supplémentaires.
+ */
 
 abstract class AMonster implements IMonster {
     protected string $name;
